@@ -1,3 +1,4 @@
+import time
 from flask import Blueprint, request, jsonify
 from baker.mysql import *
 
@@ -30,4 +31,26 @@ def search_blogs_content():
     res = cur.fetchall()
     return jsonify(res)
     
+@bp.route('/get_blogs_comments')
+def get_blogs_comments():
+    name = request.args.get('name')
+    db = mysql.get_db()
+    cur = db.cursor()
+    cur.execute(stmt_getComments, (name,))
+    text = cur.fetchall()
+    return jsonify(text)
 
+@bp.route('/post_comment', methods=('POST',))
+def post_comment():
+    ctime = time.time()
+    title = request.form['title']
+    name = request.form['name']
+    body = request.form['body']
+    db = mysql.get_db()
+    cur = db.cursor()
+    cur.execute(stmt_insertComments, (ctime, title, name, body))
+    db.commit()
+    return jsonify({
+        'success': True,
+        "status_code": 200,
+        })

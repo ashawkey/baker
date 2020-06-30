@@ -11,7 +11,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
     CORS(app)
 
-    app.config.from_object('config.py')
+    app.config.from_object('config')
 
     os.makedirs(app.instance_path, exist_ok=True)
 
