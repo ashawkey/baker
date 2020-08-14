@@ -1,5 +1,3 @@
-# Setting up Shadowsocks in CentOS7
-
 ### Shadowsocks
 
 edit `/etc/shadowsocks.json`
