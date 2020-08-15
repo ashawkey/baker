@@ -14,9 +14,6 @@ SCHEMA = [
     DROP TABLE if exists posts;
     ''',
     '''
-    DROP TABLE if exists nonsense;
-    ''',
-    '''
     CREATE TABLE posts (
         title VARCHAR(256) NOT NULL,
         ctime BIGINT NOT NULL,
