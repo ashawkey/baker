@@ -8,10 +8,10 @@ from flaskext.mysql import MySQL
 
 SCHEMA = [
     '''
-    DROP TABLE comments;
+    DROP TABLE if exists comments;
     ''',
     '''
-    DROP TABLE posts;
+    DROP TABLE if exists posts;
     ''',
     '''
     CREATE TABLE posts (

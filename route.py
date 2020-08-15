@@ -2,11 +2,11 @@ import time
 from flask import Blueprint, request, jsonify
 from mysql import *
 
-bp = Blueprint('route', __name__)
+bp = Blueprint('route', __name__, url_prefix='/api')
 
-@bp.route('/')
-def hello():
-    return "Hello!"
+#@bp.route('/')
+#def hello():
+#    return "Hello!"
 
 @bp.route('/get_blogs_meta')
 def get_blogs_meta():
