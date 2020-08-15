@@ -8,10 +8,13 @@ from flaskext.mysql import MySQL
 
 SCHEMA = [
     '''
-    DROP TABLE comments;
+    DROP TABLE if exists comments;
     ''',
     '''
-    DROP TABLE posts;
+    DROP TABLE if exists posts;
+    ''',
+    '''
+    DROP TABLE if exists nonsense;
     ''',
     '''
     CREATE TABLE posts (
@@ -35,6 +38,16 @@ SCHEMA = [
             REFERENCES posts (title)
     ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
     ''',
+    '''
+    CREATE TABLE nonsense (
+        nid INT NOT NULL AUTO_INCREMENT,
+        ctime BIGINT NOT NULL,
+        mtime BIGINT NOT NULL,
+        body TEXT NOT NULL,
+        PRIMARY KEY (nid),
+        FULLTEXT (body) WITH PARSER ngram
+    ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+    ''',
 ]
 
 mysql = MySQL()
@@ -42,9 +55,14 @@ mysql = MySQL()
 stmt_insertPosts = "replace into posts(title, ctime, mtime, body) values(%s, %s, %s, %s)"
 stmt_getMeta = "select title, ctime, mtime from posts order by mtime desc"
 stmt_getPost = "select body from posts where title = (%s)"
-stmt_search = "select title, ctime, mtime from posts where match (title, body) against (%s in boolean mode) order by mtime desc"
+stmt_searchPost = "select title, ctime, mtime from posts where match (title, body) against (%s in boolean mode) order by mtime desc"
 stmt_insertComments = "insert into comments(time, title, nickname, comment) values(%s, %s, %s, %s)"
 stmt_getComments = "select time, nickname, comment from comments where title = (%s) order by time"
+
+stmt_insertNonsense = "insert into nonsense(ctime, mtime, body) values(%s, %s, %s)"
+stmt_updateNonsense = "update nonsense set mtime=(%s), body=(%s) where nid=(%s)"
+stmt_deleteNonsense = "delete from nonsense where nid=(%s)"
+stmt_searchNonsense = "select nid, ctime, mtime, body from nonsense where match (body) against (%s in boolean mode) order by mtime desc"
 
 def init_db():
     db = mysql.get_db()
@@ -85,6 +103,7 @@ def update_db_command():
     """always call after init-db."""
     update_db()
     click.echo('Updated the database.')
+
 
 def init_app(app):
     mysql.init_app(app)

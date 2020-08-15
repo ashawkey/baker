@@ -30,7 +30,7 @@ def search_blogs_content():
     keyword = request.args.get('keyword')
     db = mysql.get_db()
     cur = db.cursor()
-    cur.execute(stmt_search, (keyword,))
+    cur.execute(stmt_searchPost, (keyword,))
     res = cur.fetchall()
     return jsonify(res)
     

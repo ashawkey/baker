@@ -37,7 +37,7 @@ mysql = MySQL()
 stmt_insertPosts = "replace into posts(title, ctime, mtime, body) values(%s, %s, %s, %s)"
 stmt_getMeta = "select title, ctime, mtime from posts order by mtime desc"
 stmt_getPost = "select body from posts where title = (%s)"
-stmt_search = "select title, ctime, mtime from posts where match (title, body) against (%s in boolean mode) order by mtime desc"
+stmt_searchPost = "select title, ctime, mtime from posts where match (title, body) against (%s in boolean mode) order by mtime desc"
 stmt_insertComments = "insert into comments(time, title, nickname, comment) values(%s, %s, %s, %s)"
 stmt_getComments = "select time, nickname, comment from comments where title = (%s) order by time"
 
