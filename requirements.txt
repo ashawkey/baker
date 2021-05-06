@@ -1,4 +1,4 @@
-Flask_Cors==3.0.8
+Flask_Cors==3.0.9
 Flask==1.0.2
 click==6.7
 Flask_Bcrypt==0.7.1
